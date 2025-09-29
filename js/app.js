@@ -123,7 +123,7 @@ class VitaCoderApp {
         } finally {
             this.uiManager.hideLoading();
         }
-    }
+    }`
     
     showCyberzillaDemo() {
         const demoCode = `// Cyberzilla™ Presents - VitaCoder Pro Demo
@@ -172,13 +172,52 @@ void displayStats() {
   lcd.print("Lines: 42");
   lcd.setCursor(0, 1);
   lcd.print("Errors: 0");
-}`;
+};
 
         this.uiManager.displayCode(demoCode);
     }
-}
+});
 
 // Initialize application
 document.addEventListener('DOMContentLoaded', () => {
     new VitaCoderApp();
 });
+
+// Register Service Worker
+async function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        try {
+            const registration = await navigator.serviceWorker.register('/service-worker.js');
+            console.log('✅ Service Worker registered:', registration);
+            
+            // Check for updates
+            registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                console.log('🔄 New Service Worker found:', newWorker);
+            });
+            
+        } catch (error) {
+            console.error('❌ Service Worker registration failed:', error);
+        }
+    }
+}
+
+// Initialize PWA features
+function initializePWA() {
+    registerServiceWorker();
+    
+    // Add beforeinstallprompt event handler
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Show install button or notification
+        showInstallPrompt();
+    });
+}
+
+function showInstallPrompt() {
+    // Implementation for showing install prompt
+    console.log('📱 App can be installed');
+}
