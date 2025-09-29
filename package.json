@@ -138,4 +138,14 @@
     "build_dir": "dist",
     "security_level": "high"
   }
+{
+  "scripts": {
+    "build:official": "node build/create-official-release.js",
+    "verify:build": "node build/verify-official-build.js",
+    "security:clone-check": "node security/test-clone-protection.js",
+    
+    "release:patch": "npm version patch && npm run build:official",
+    "release:minor": "npm version minor && npm run build:official", 
+    "release:major": "npm version major && npm run build:official"
+  }
 }
