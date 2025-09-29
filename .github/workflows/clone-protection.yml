@@ -1,0 +1,89 @@
+name: 🛅 Clone Protection Monitoring
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  clone-monitoring:
+    name: 📊 Clone Activity Monitoring
+    runs-on: ubuntu-latest
+    if: github.repository == 'FJ-cyberzilla/EM-Zilla'
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🔍 Analyze Clone Patterns
+        uses: actions/github-script@v7
+        env:
+          SECURITY_WEBHOOK: ${{ secrets.SECURITY_WEBHOOK }}
+        with:
+          script: |
+            const { execSync } = require('child_process');
+            
+            // Get repository traffic (requires repo permissions)
+            const traffic = await github.rest.repos.getTrafficViews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per: 'day'
+            });
+            
+            // Get clone statistics
+            const clones = await github.rest.repos.getClones({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per: 'day'
+            });
+            
+            // Analyze for suspicious patterns
+            const analysis = {
+              total_views: traffic.data.count,
+              unique_visitors: traffic.data.uniques,
+              total_clones: clones.data.count,
+              unique_cloners: clones.data.uniques,
+              timestamp: new Date().toISOString(),
+              suspicious_indicators: []
+            };
+            
+            // Detect potential abuse patterns
+            if (clones.data.count > 100 && traffic.data.count < 10) {
+              analysis.suspicious_indicators.push('High clones with low views - potential automated cloning');
+            }
+            
+            if (analysis.unique_cloners > 50) {
+              analysis.suspicious_indicators.push('Unusually high number of unique cloners');
+            }
+            
+            // Log analysis
+            console.log('Clone Protection Analysis:', analysis);
+            
+            // Send alert if suspicious activity detected
+            if (analysis.suspicious_indicators.length > 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: '🚨 Suspicious Clone Activity Detected',
+                body: `## Security Alert\n\nPotential unauthorized cloning activity detected:\n\n${analysis.suspicious_indicators.map(indicator => `- ${indicator}`).join('\n')}\n\n**Analysis Report:**\n\`\`\`json\n${JSON.stringify(analysis, null, 2)}\n\`\`\``,
+                labels: ['security', 'clone-protection', 'alert']
+              });
+            }
+
+      - name: 📈 Generate Security Report
+        run: |
+          echo "# EM-Zilla Security Report - $(date)" > security-report.md
+          echo "## Clone Protection Monitoring" >> security-report.md
+          echo "- Last Scan: $(date)" >> security-report.md
+          echo "- Repository: ${{ github.repository }}" >> security-report.md
+          echo "## Recommendations" >> security-report.md
+          echo "1. Monitor for unusual clone patterns" >> security-report.md
+          echo "2. Review access logs regularly" >> security-report.md
+          echo "3. Update security tokens if compromised" >> security-report.md
+
+      - name: 📤 Upload Security Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: clone-protection-report
+          path: security-report.md
+          retention-days: 365
