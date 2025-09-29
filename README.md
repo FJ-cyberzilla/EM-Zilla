@@ -12,7 +12,8 @@ The Ultimate PSP Vita-Style Arduino Development Environment*
 
 **Experience the future of Arduino development with AI-powered code generation, PSP Vita aesthetics, and enterprise-grade security.**
 
-[🚀 Live Demo](https://fj-cyberzilla.github.io/EM-Zilla) • [📖 Documentation](https://github.com/FJ-cyberzilla/EM-Zilla/wiki) • [🫆 Report Bug](https://github.com/FJ-cyberzilla/EM-Zilla/issues) • [💡 Request Feature](https://github.com/FJ-cyberzilla/EM-Zilla/issues)
+[🚀 Live Demo](https://fj-cyberzilla.github.io/EM-Zilla) • [📖 Documentation](https://github.com/FJ-cyberzilla/EM-Zilla/wiki) • 
+[🫆 Report Bug](https://github.com/FJ-cyberzilla/EM-Zilla/issues) • [💡 Request Feature](https://github.com/FJ-cyberzilla/EM-Zilla/issues)
 
 </div>
 
