@@ -7,7 +7,55 @@ import TermuxBridge from './termux-bridge.js';
 import MobileAdapter from './mobile-adapter.js';
 import RealTimeCompiler from '../modules/real-time-compiler.js';
 import CodeOptimizer from '../modules/code-optimizer.js';
+import MLCodeAnalyzer from '../modules/ml-code-analyzer.js';
+import SmartSuggestions from '../modules/smart-suggestions.js';
 
+class VitaCoderApp {
+    constructor() {
+        // ... existing initializations
+        this.mlAnalyzer = new MLCodeAnalyzer();
+        this.smartSuggestions = new SmartSuggestions();
+        
+        this.init();
+    }
+    
+    async init() {
+        // ... existing initialization
+        await this.initializeML();
+    }
+    
+    async initializeML() {
+        try {
+            await this.mlAnalyzer.initialize();
+            console.log('✅ ML features initialized');
+        } catch (error) {
+            console.warn('⚠️ ML features not available:', error);
+        }
+    }
+    
+    async generateCode() {
+        // ... 
+        
+        // Enhanced with ML analysis
+        if (this.mlAnalyzer.initialized) {
+            const mlAnalysis = await this.mlAnalyzer.analyzeCode(code);
+            this.uiManager.displayMLAnalysis(mlAnalysis);
+        }
+    }
+    
+    async getSmartSuggestions() {
+        const code = document.getElementById('commandInput').value;
+        const cursorPos = this.getCursorPosition();
+        
+        const suggestions = await this.smartSuggestions.getCodeSuggestions(
+            code, 
+            cursorPos,
+            { arduinoModel: this.currentArduinoModel }
+        );
+        
+        this.uiManager.displaySmartSuggestions(suggestions);
+    }
+}
 class VitaCoderApp {
     constructor() {
         this.uiManager = new UIManager();
