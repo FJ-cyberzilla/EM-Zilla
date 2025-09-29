@@ -53,3 +53,211 @@
 .vita-button.primary {
     background: linear-gradient(145deg, #7877c6, #5a59a5);
 }
+/* New Tab Navigation */
+.nav-tabs {
+    display: flex;
+    background: rgba(30, 30, 45, 0.8);
+    border-radius: 12px;
+    padding: 5px;
+    margin-bottom: 20px;
+    gap: 5px;
+}
+
+.nav-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: #a0a0c0;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.nav-tab.active {
+    background: linear-gradient(145deg, #7877c6, #5a59a5);
+    color: white;
+    box-shadow: 0 2px 8px rgba(120, 119, 198, 0.3);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Arduino Info Section */
+.arduino-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.model-selector {
+    background: rgba(40, 40, 60, 0.8);
+    border: 1px solid rgba(120, 119, 198, 0.3);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: #e6e6e6;
+    font-size: 12px;
+}
+
+.vita-button.small {
+    padding: 8px 12px;
+    font-size: 11px;
+}
+
+/* Pin Configurator */
+.pin-configurator {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.config-section {
+    background: rgba(30, 30, 45, 0.5);
+    border-radius: 12px;
+    padding: 15px;
+}
+
+.pin-mapping {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.pin-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 100px;
+    gap: 10px;
+    align-items: center;
+    padding: 8px;
+    background: rgba(40, 40, 60, 0.3);
+    border-radius: 6px;
+}
+
+.pin-name {
+    font-weight: bold;
+    color: #7877c6;
+}
+
+.pin-desc {
+    font-size: 11px;
+    color: #a0a0c0;
+}
+
+/* LCD Writer */
+.lcd-writer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.lcd-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.lcd-screen {
+    width: 250px;
+    height: 100px;
+    background: #2a4a2a;
+    border: 10px solid #333;
+    border-radius: 5px;
+    padding: 10px;
+    font-family: 'Courier New', monospace;
+    color: #aaffaa;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.lcd-line {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
+
+/* Troubleshooting */
+.troubleshooting {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.issue-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.issue-item {
+    background: rgba(40, 40, 60, 0.5);
+    border-radius: 8px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.issue-item:hover {
+    background: rgba(120, 119, 198, 0.2);
+}
+
+/* Code Statistics */
+.code-stats {
+    display: flex;
+    gap: 15px;
+    margin-left: auto;
+}
+
+.stat {
+    font-size: 11px;
+    padding: 4px 8px;
+    background: rgba(40, 40, 60, 0.5);
+    border-radius: 4px;
+}
+
+/* AI Options */
+.ai-options {
+    display: flex;
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.option-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: #a0a0c0;
+    cursor: pointer;
+}
+
+.checkmark {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #7877c6;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-checkbox input:checked + .checkmark::after {
+    content: '✓';
+    color: #7877c6;
+    font-size: 12px;
+}
+
+.option-checkbox input {
+    display: none;
+}
