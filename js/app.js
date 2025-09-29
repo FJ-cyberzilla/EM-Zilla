@@ -9,7 +9,130 @@ import RealTimeCompiler from '../modules/real-time-compiler.js';
 import CodeOptimizer from '../modules/code-optimizer.js';
 import MLCodeAnalyzer from '../modules/ml-code-analyzer.js';
 import SmartSuggestions from '../modules/smart-suggestions.js';
+import AIOrchestrator from '../ai-orchestrator.js';
+// ... 
 
+class VitaCoderApp {
+    constructor() {
+        // ... existing initializations
+        this.aiOrchestrator = new AIOrchestrator();
+        
+        this.init();
+    }
+    
+    async init() {
+        // ... existing initialization
+        await this.initializeAIOrchestration();
+    }
+    
+    async initializeAIOrchestration() {
+        try {
+            await this.aiOrchestrator.initialize();
+            
+            // Set up AI event listeners
+            this.setupAIEventListeners();
+            
+            console.log('🎯 AI Orchestration System Ready');
+            
+        } catch (error) {
+            console.warn('⚠️ AI Orchestration not available:', error);
+        }
+    }
+    
+    setupAIEventListeners() {
+        // Listen for AI system events
+        this.aiOrchestrator.aiBus.addEventListener('orchestrator_error', (event) => {
+            this.handleAIError(event.detail);
+        });
+        
+        this.aiOrchestrator.aiBus.addEventListener('ai_progress', (event) => {
+            this.updateAIProgress(event.detail);
+        });
+    }
+    
+    async generateCodeWithAI(description, requirements = {}) {
+        this.uiManager.showAILoading('AI is generating your code...');
+        
+        try {
+            const result = await this.aiOrchestrator.generateArduinoCode(description, requirements);
+            
+            this.uiManager.displayAICodeResult(result);
+            this.uiManager.hideAILoading();
+            
+        } catch (error) {
+            this.uiManager.hideAILoading();
+            this.uiManager.showAIError(error);
+        }
+    }
+    
+    async detectHardwareWithAI() {
+        this.uiManager.showAILoading('AI is detecting hardware...');
+        
+        try {
+            const result = await this.aiOrchestrator.detectHardware();
+            
+            this.uiManager.displayHardwareDetection(result);
+            this.uiManager.hideAILoading();
+            
+        } catch (error) {
+            this.uiManager.hideAILoading();
+            this.uiManager.showAIError(error);
+        }
+    }
+    
+    async troubleshootWithAI(code, errors = []) {
+        this.uiManager.showAILoading('AI is analyzing your code...');
+        
+        try {
+            const result = await this.aiOrchestrator.troubleshootCode(code, errors);
+            
+            this.uiManager.displayTroubleshootingResult(result);
+            this.uiManager.hideAILoading();
+            
+        } catch (error) {
+            this.uiManager.hideAILoading();
+            this.uiManager.showAIError(error);
+        }
+    }
+    
+    async optimizeWithAI(code, target = 'performance') {
+        this.uiManager.showAILoading('AI is optimizing your code...');
+        
+        try {
+            const result = await this.aiOrchestrator.optimizeCode(code, target);
+            
+            this.uiManager.displayOptimizationResult(result);
+            this.uiManager.hideAILoading();
+            
+        } catch (error) {
+            this.uiManager.hideAILoading();
+            this.uiManager.showAIError(error);
+        }
+    }
+    
+    handleAIError(errorInfo) {
+        console.error('🤖 AI System Error:', errorInfo);
+        
+        // Show user-friendly error message
+        this.uiManager.showNotification(
+            `AI system issue: ${errorInfo.error.message}. Using fallback approach.`,
+            'warning'
+        );
+    }
+    
+    updateAIProgress(progress) {
+        this.uiManager.updateAIProgress(progress);
+    }
+    
+    getAIStatus() {
+        return this.aiOrchestrator.getSystemStatus();
+    }
+}
+
+// Initialize application
+document.addEventListener('DOMContentLoaded', () => {
+    window.vitaCoderApp = new VitaCoderApp();
+});
 class VitaCoderApp {
     constructor() {
         // ... existing initializations
