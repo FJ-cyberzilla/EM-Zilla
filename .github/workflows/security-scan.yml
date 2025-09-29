@@ -1,0 +1,75 @@
+name: 🛡️ Security Scanning
+
+on:
+  schedule:
+    - cron: '0 6 * * 1' # Every Monday at 6 AM
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-scan:
+    name: 🔍 Comprehensive Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: 📦 Install dependencies
+        run: npm ci
+
+      - name: 🔒 NPM Audit
+        run: |
+          npm audit --audit-level=high
+          npm audit fix --dry-run
+
+      - name: 🚨 Snyk Open Source Scan
+        uses: snyk/actions/node@v2
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --sarif-file-output=snyk.sarif
+
+      - name: 📊 Snyk Code Scan
+        uses: snyk/actions/node@v2
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: code test --sarif-file-output=snyk-code.sarif
+
+      - name: 📁 Upload Security Reports
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: snyk.sarif
+
+      - name: 🔍 Secret Scanning
+        uses: trufflesecurity/trufflehog@v3
+        with:
+          path: ./
+          base: ${{ github.event.before }}
+          head: ${{ github.event.after }}
+
+      - name: 🛡️ OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@v1
+        with:
+          project: 'EM-Zilla'
+          path: ./
+          format: 'HTML'
+          out: 'reports/'
+
+      - name: 📤 Upload Security Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            reports/
+            *.sarif
+          retention-days: 90
