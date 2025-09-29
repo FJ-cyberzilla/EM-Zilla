@@ -1,0 +1,105 @@
+# Enhanced .github/dependabot.yml
+version: 2
+registries:
+  # npm registry configuration (if using private packages)
+  npm-github:
+    type: npm-registry
+    url: https://npm.pkg.github.com
+    token: ${{secrets.GITHUB_TOKEN}}
+    replaces-base: true
+    username: x # GitHub Packages requires username placeholder
+
+  # Docker registry configuration
+  dockerhub:
+    type: docker-registry
+    url: https://index.docker.io/v1/
+    username: ${{secrets.DOCKERHUB_USERNAME}}
+    password: ${{secrets.DOCKERHUB_TOKEN}}
+
+updates:
+  # npm dependencies with registry
+  - package-ecosystem: "npm"
+    directory: "/"
+    registries:
+      - "npm-github"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    versioning-strategy: "auto"
+    pull-request-branch-name:
+      separator: "-"
+    labels:
+      - "dependencies"
+      - "javascript"
+      - "automated"
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(dev-deps)"
+      include: "scope"
+    ignore:
+      - dependency-name: "eslint*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "webpack*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
+    # Group multiple minor/patch updates together
+    groups:
+      eslint-plugins:
+        patterns:
+          - "eslint*"
+      build-tools:
+        patterns:
+          - "webpack*"
+          - "babel*"
+          - "rollup*"
+
+  # GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "tuesday"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "github-actions"
+      - "automated"
+    commit-message:
+      prefix: "chore(actions)"
+    # Group all GitHub Actions updates
+    groups:
+      github-actions:
+        patterns:
+          - "*"
+
+  # Docker - if you containerize the application
+  - package-ecosystem: "docker"
+    directory: "/"
+    registries:
+      - "dockerhub"
+    schedule:
+      interval: "monthly"
+    open-pull-requests-limit: 3
+    labels:
+      - "dependencies"
+      - "docker"
+      - "automated"
+    commit-message:
+      prefix: "chore(docker)"
+
+  # Python - if you add ML/AI Python components
+  - package-ecosystem: "pip"
+    directory: "/python-components"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    labels:
+      - "dependencies"
+      - "python"
+      - "automated"
+    ignore:
+      - dependency-name: "tensorflow*"
+        update-types: ["version-update:semver-major"]
