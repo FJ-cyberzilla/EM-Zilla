@@ -1,0 +1,39 @@
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .main-content {
+        grid-template-columns: 1fr;
+        height: auto;
+    }
+    
+    .controls {
+        flex-direction: column;
+    }
+    
+    .vita-dpad {
+        display: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .psp-vita {
+        padding: 15px;
+        border-radius: 20px;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .vita-button {
+        justify-content: center;
+    }
+    
+    .header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .status-bar {
+        justify-content: center;
+    }
+}
