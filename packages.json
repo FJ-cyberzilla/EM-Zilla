@@ -1,0 +1,50 @@
+{
+"name": "EM-Zilla",
+"version": "2.0.0",
+"description": "Arduino IDE coder with AI code generation and USB detection",
+"type": "module",
+"main": "js/app.js",
+"scripts": {
+"dev": "live-server . --port=3000 --entry-file=index.html",
+"build": "node build.js",
+"serve": "http-server . -p 3000 -c-1",
+"test": "node test-runner.js",
+"lint": "eslint js/ modules/",
+"deploy": "npm run build && npm run serve"
+},
+"keywords": [
+"arduino",
+"ide",
+"ai",
+"code-generation",
+"pwa",
+"webserial",
+"termux",
+"psp-vita",
+"cyberzilla"
+],
+"author": "Cyberzilla™",
+"license": "MIT",
+"repository": {
+"type": "git",
+"url": "https://github.com/FJ-cyberzilla/EM-Zilla.git"
+},
+"bugs": {
+"url": "https://www.google.com/search?q=https://github.com/FJ-cyberzilla/EM-Zilla/issues"
+},
+"homepage": "https://www.google.com/search?q=https://fj-cyberzilla.github.io/EM-Zilla",
+"devDependencies": {
+"live-server": "^1.2.2",
+"http-server": "^14.1.1",
+"eslint": "^8.45.0"
+},
+"engines": {
+"node": ">=16.0.0"
+},
+"browserslist": [
+"last 2 Chrome versions",
+"last 2 Firefox versions",
+"last 2 Edge versions",
+"last 2 Safari versions"
+]
+}
