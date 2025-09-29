@@ -1,9 +1,9 @@
-# 🦖 EM-Zilla -Tamed AI-Embeded Arduino IDE
+# 🦖 EM-Zilla - AI-Powered Arduino IDE
 
 <div align="center">
 
 ![EM-Zilla Banner](https://via.placeholder.com/800x200/1a1a2e/7877c6?text=EM-Zilla+AI+Arduino+IDE)
-The Ultimate PSP Vita-Style Arduino Development Environment*
+*The Ultimate PSP Vita-Style Arduino Development Environment*
 
 [![GitHub release](https://img.shields.io/github/v/release/FJ-cyberzilla/EM-Zilla)](https://github.com/FJ-cyberzilla/EM-Zilla/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -12,8 +12,7 @@ The Ultimate PSP Vita-Style Arduino Development Environment*
 
 **Experience the future of Arduino development with AI-powered code generation, PSP Vita aesthetics, and enterprise-grade security.**
 
-[🚀 Live Demo](https://fj-cyberzilla.github.io/EM-Zilla) • [📖 Documentation](https://github.com/FJ-cyberzilla/EM-Zilla/wiki) • 
-[🫆 Report Bug](https://github.com/FJ-cyberzilla/EM-Zilla/issues) • [💡 Request Feature](https://github.com/FJ-cyberzilla/EM-Zilla/issues)
+[🚀 Live Demo](https://fj-cyberzilla.github.io/EM-Zilla) • [📖 Documentation](https://github.com/FJ-cyberzilla/EM-Zilla/wiki) • [🐛 Report Bug](https://github.com/FJ-cyberzilla/EM-Zilla/issues) • [💡 Request Feature](https://github.com/FJ-cyberzilla/EM-Zilla/issues)
 
 </div>
 
