@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: /https:/github.com/FJ-cyberzilla/EM-Zill/sitemap.xml
+
+# Allow search engines to index
+Disallow: /private/
+Disallow: /temp/
