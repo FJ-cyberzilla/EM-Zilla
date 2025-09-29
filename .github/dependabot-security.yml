@@ -1,0 +1,25 @@
+# .github/dependabot-security.yml
+version: 2
+updates:
+  # Security-focused updates with different schedule
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    labels:
+      - "security"
+      - "dependencies"
+      - "critical"
+    # Only create PRs for security updates
+    allow:
+      - dependency-type: "direct"
+    # Focus on security vulnerabilities
+    commit-message:
+      prefix: "fix(security)"
+    # Security-specific groups
+    groups:
+      security-patches:
+        update-types: ["version-update:semver-patch"]
+        patterns:
+          - "*"
