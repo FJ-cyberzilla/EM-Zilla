@@ -10,8 +10,197 @@ import CodeOptimizer from '../modules/code-optimizer.js';
 import MLCodeAnalyzer from '../modules/ml-code-analyzer.js';
 import SmartSuggestions from '../modules/smart-suggestions.js';
 import AIOrchestrator from '../ai-orchestrator.js';
-// ... 
+import USBDetector from './js/usb-detector.js';
+import USBStatusMonitor from './js/usb-status-monitor.js';
 
+class VitaCoderApp {
+    constructor() {
+        // ... existing initializations
+        this.usbDetector = new USBDetector();
+        this.usbMonitor = new USBStatusMonitor(this.usbDetector);
+        
+        this.init();
+    }
+    
+    async init() {
+        // ... existing initialization
+        await this.initializeUSBDetection();
+    }
+    
+    async initializeUSBDetection() {
+        try {
+            // Set up USB event listeners
+            this.setupUSBEvents();
+            
+            // Start status monitoring
+            this.usbMonitor.startMonitoring();
+            
+            // Check initial status
+            await this.checkInitialUSBStatus();
+            
+            console.log('✅ USB Detection System Ready');
+            
+        } catch (error) {
+            console.warn('⚠️ USB detection not available:', error);
+        }
+    }
+    
+    setupUSBEvents() {
+        // Monitor status changes
+        this.usbMonitor.onStatusChange((status) => {
+            this.handleUSBStatusChange(status);
+        });
+        
+        // Connection events
+        this.usbDetector.onConnection((model, port) => {
+            this.handleArduinoConnection(model, port);
+        });
+        
+        this.usbDetector.onDisconnection(() => {
+            this.handleArduinoDisconnection();
+        });
+    }
+    
+    async checkInitialUSBStatus() {
+        const status = this.usbDetector.getStatus();
+        
+        if (status.supported) {
+            // Auto-scan for devices
+            await this.scanForArduinoDevices();
+        } else {
+            this.uiManager.showUSBUnsupported();
+        }
+    }
+    
+    async scanForArduinoDevices() {
+        this.uiManager.showUSBScanning();
+        
+        try {
+            const devices = await this.usbDetector.scanForDevices();
+            this.uiManager.displayDetectedDevices(devices);
+            
+        } catch (error) {
+            this.uiManager.showUSBError(error);
+        }
+    }
+    
+    async connectToArduino() {
+        this.uiManager.showUSBConnecting();
+        
+        try {
+            const model = await this.usbDetector.detectArduino();
+            this.currentArduinoModel = model;
+            
+            // Update AI context with connected device
+            await this.updateAIContextWithDevice(model);
+            
+            this.uiManager.showUSBConnected(model);
+            
+        } catch (error) {
+            this.uiManager.showUSBError(error);
+        }
+    }
+    
+    async uploadToArduino(code) {
+        if (!this.usbDetector.isConnected) {
+            this.uiManager.showNotification('Please connect an Arduino first', 'warning');
+            return;
+        }
+        
+        this.uiManager.showUploadProgress('Uploading to Arduino...');
+        
+        try {
+            await this.usbDetector.uploadCode(code);
+            this.uiManager.showUploadSuccess();
+            
+        } catch (error) {
+            this.uiManager.showUploadError(error);
+        }
+    }
+    
+    handleUSBStatusChange(status) {
+        this.uiManager.updateUSBStatus(status);
+        
+        // Update AI orchestrator with new context
+        this.aiOrchestrator.context.update('usb_status', status);
+    }
+    
+    handleArduinoConnection(model, port) {
+        console.log(`🎯 Arduino ${model} connected!`);
+        
+        // Update UI
+        this.uiManager.showArduinoConnected(model, port);
+        
+        // Update AI context
+        this.aiOrchestrator.context.update('connected_device', {
+            model: model,
+            port: port.getInfo(),
+            capabilities: this.getDeviceCapabilities(model)
+        });
+    }
+    
+    handleArduinoDisconnection() {
+        console.log('⚠️ Arduino disconnected');
+        
+        // Update UI
+        this.uiManager.showArduinoDisconnected();
+        
+        // Update AI context
+        this.aiOrchestrator.context.update('connected_device', null);
+    }
+    
+    getDeviceCapabilities(model) {
+        const capabilities = {
+            'uno': {
+                digitalPins: 14,
+                analogPins: 6,
+                pwmPins: 6,
+                memory: '2KB',
+                flash: '32KB'
+            },
+            'nano': {
+                digitalPins: 14,
+                analogPins: 8,
+                pwmPins: 6,
+                memory: '2KB',
+                flash: '32KB'
+            },
+            'mega': {
+                digitalPins: 54,
+                analogPins: 16,
+                pwmPins: 15,
+                memory: '8KB',
+                flash: '256KB'
+            },
+            'esp32': {
+                digitalPins: 34,
+                analogPins: 18,
+                pwmPins: 16,
+                memory: '520KB',
+                flash: '4MB',
+                wifi: true,
+                bluetooth: true
+            }
+        };
+        
+        return capabilities[model] || capabilities['uno'];
+    }
+    
+    async getDeviceReport() {
+        return await this.usbMonitor.getDeviceReport();
+    }
+    
+    // Cleanup
+    async cleanup() {
+        this.usbMonitor.stopMonitoring();
+        await this.usbDetector.disconnect();
+    }
+}
+
+// Initialize application
+document.addEventListener('DOMContentLoaded', () => {
+    window.vitaCoderApp = new VitaCoderApp();
+});
 class VitaCoderApp {
     constructor() {
         // ... existing initializations
