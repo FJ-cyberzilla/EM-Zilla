@@ -10,7 +10,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read & write
     
     steps:
       - name: 📥 Checkout code
