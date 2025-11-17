@@ -91,7 +91,8 @@ export default class CloneProtector {
             }
             
             // Alternative check for GitHub Pages
-            const githubPagesHosts = this.cloneDetection.allowedHosts.filter(host => host.endsWith('github.io'));
+            // Only include the exact allowed GitHub Pages host(s)
+            const githubPagesHosts = this.cloneDetection.allowedHosts.filter(host => host === 'fj-cyberzilla.github.io');
             if (githubPagesHosts.includes(window.location.hostname)) {
                 return window.location.href.includes('FJ-cyberzilla/EM-Zilla');
             }
