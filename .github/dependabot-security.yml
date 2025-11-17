@@ -1,5 +1,5 @@
 # .github/dependabot-security.yml
-version: 2
+version: v4
 updates:
   # Security-focused updates with different schedule
   - package-ecosystem: "npm"
