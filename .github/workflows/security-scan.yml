@@ -11,6 +11,8 @@ on:
 jobs:
   security-scan:
     name: 🔍 Comprehensive Security Scan
+    permissions:
+      contents: read
     runs-on: ubuntu-latest
     
     steps:
