@@ -2,8 +2,7 @@
 
 <div align="center">
 
-![EM-Zilla Banner](https://via.placeholder.com/800x200/1a1a2e/7877c6?text=EM-Zilla+AI+Arduino+IDE)
-*The Ultimate PSP Vita-Style Arduino Development Environment*
+## The Ultimate PSP Vita-Style Arduino Development Environment*
 
 [![GitHub release](https://img.shields.io/github/v/release/FJ-cyberzilla/EM-Zilla)](https://github.com/FJ-cyberzilla/EM-Zilla/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
