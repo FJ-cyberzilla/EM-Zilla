@@ -9,6 +9,9 @@ jobs:
   clone-monitoring:
     name: 📊 Clone Activity Monitoring
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
     if: github.repository == 'FJ-cyberzilla/EM-Zilla'
     
     steps:
