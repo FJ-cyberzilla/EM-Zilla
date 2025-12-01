@@ -8,7 +8,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Web Serial API](https://img.shields.io/badge/Web%20Serial-API-blue)](https://developer.mozilla.org/en-US/docs/Web/API/Web_Serial_API)
 [![PWA Ready](https://img.shields.io/badge/PWA-Ready-green)](https://web.dev/progressive-web-apps/)
-
+[![Bandit](https://github.com/FJ-cyberzilla/EM-Zilla/actions/workflows/bandit.yml/badge.svg)](https://github.com/FJ-cyberzilla/EM-Zilla/actions/workflows/bandit.yml)
 **Experience the future of Arduino development with AI-powered code generation, PSP Vita aesthetics, and enterprise-grade security.**
 
 [🚀 Live Demo](https://fj-cyberzilla.github.io/EM-Zilla) • [📖 Documentation](https://github.com/FJ-cyberzilla/EM-Zilla/wiki) • 
