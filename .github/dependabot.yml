@@ -1,5 +1,5 @@
 # Enhanced .github/dependabot.yml
-version: 2
+version: 4
 registries:
   # npm registry configuration (if using private packages)
   npm-github:
