@@ -7,35 +7,33 @@
   "scripts": {
     "dev": "live-server . --port=3000 --entry-file=index.html",
     "dev:secure": "npm run build:dev && live-server dist/ --port=3000",
-    
     "build": "node build/build-secure.js",
     "build:dev": "npm run security:scan && npm run build:hashes && npm run build:obfuscate",
     "build:prod": "npm run security:scan && npm run build:hashes && npm run build:obfuscate && npm run build:sign",
     "build:hashes": "node build/generate-hashes.js",
     "build:obfuscate": "webpack --config build/webpack.config.js --mode=production",
     "build:sign": "node build/generate-signature.js",
-    
+    "build:official": "node build/create-official-release.js",
     "serve": "http-server . -p 3000 -c-1",
     "serve:secure": "npm run build:prod && http-server dist/ -p 3000 -c-1 --ssl --key build/ssl/key.pem --cert build/ssl/cert.pem",
-    
     "test": "node test-runner.js",
     "test:security": "node security/test-integrity.js",
     "test:integration": "npm run test && npm run test:security",
-    
     "lint": "eslint js/ modules/ security/",
     "lint:security": "eslint security/ --config .eslintrc.security.js",
-    
     "security:scan": "npm audit --audit-level=moderate",
     "security:audit": "npx snyk test && npm audit --audit-level=high",
     "security:fix": "npm audit fix",
     "security:outdated": "npm outdated --long",
-    
     "integrity:check": "node build/verify-integrity.js",
     "integrity:generate": "node build/generate-hashes.js",
-    
+    "verify:build": "node build/verify-official-build.js",
+    "security:clone-check": "node security/test-clone-protection.js",
     "deploy": "npm run build:prod && npm run serve:secure",
     "deploy:dev": "npm run build:dev && npm run serve",
-    
+    "release:patch": "npm version patch && npm run build:official",
+    "release:minor": "npm version minor && npm run build:official",
+    "release:major": "npm version major && npm run build:official",
     "clean": "rm -rf dist/ && rm -f security/integrity-verifier.js.bak",
     "clean:all": "npm run clean && rm -rf node_modules/ package-lock.json"
   },
@@ -95,7 +93,6 @@
     "live-server": "^1.2.2",
     "http-server": "^14.1.1",
     "eslint": "^8.45.0",
-    
     "webpack": "^5.88.0",
     "webpack-cli": "^5.1.4",
     "webpack-obfuscator": "^3.5.0",
@@ -105,10 +102,8 @@
     "@babel/preset-env": "^7.22.0",
     "@babel/plugin-transform-modules-commonjs": "^7.22.0",
     "@babel/plugin-proposal-private-methods": "^7.18.6",
-    
     "snyk": "^1.100.0",
     "npm-audit-resolver": "^3.0.0",
-    
     "crypto-js": "^4.1.1",
     "js-sha256": "^0.9.0"
   },
@@ -137,15 +132,5 @@
     "ssl_port": 3443,
     "build_dir": "dist",
     "security_level": "high"
-  }
-{
-  "scripts": {
-    "build:official": "node build/create-official-release.js",
-    "verify:build": "node build/verify-official-build.js",
-    "security:clone-check": "node security/test-clone-protection.js",
-    
-    "release:patch": "npm version patch && npm run build:official",
-    "release:minor": "npm version minor && npm run build:official", 
-    "release:major": "npm version major && npm run build:official"
   }
 }
