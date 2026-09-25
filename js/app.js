@@ -195,13 +195,18 @@ class VitaCoderApp {
     }
 
     showErrorScreen(error) {
+        const errorMessage = (error && error.message) ? error.message : String(error);
         document.body.innerHTML = `
             <div style="padding: 40px; text-align: center;">
                 <h2>Application Error</h2>
-                <p>${error.message}</p>
+                <p id="application-error-message"></p>
                 <button onclick="location.reload()">Restart Application</button>
             </div>
         `;
+        const errorMessageElement = document.getElementById('application-error-message');
+        if (errorMessageElement) {
+            errorMessageElement.textContent = errorMessage;
+        }
     }
 }
 
@@ -211,13 +216,18 @@ async function initializeApplication() {
         window.vitaCoderApp = new VitaCoderApp();
     } catch (error) {
         console.error('Failed to initialize application:', error);
+        const initErrorMessage = (error && error.message) ? error.message : String(error);
         document.body.innerHTML = `
             <div style="padding: 40px; text-align: center;">
                 <h2>Critical Error</h2>
                 <p>Failed to start EM-Zilla</p>
-                <p><small>${error.message}</small></p>
+                <p><small id="critical-error-message"></small></p>
             </div>
         `;
+        const criticalErrorMessageElement = document.getElementById('critical-error-message');
+        if (criticalErrorMessageElement) {
+            criticalErrorMessageElement.textContent = initErrorMessage;
+        }
     }
 }
 
