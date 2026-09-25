@@ -99,7 +99,7 @@ void setup() {
   
   // Display welcome message
   lcd.setCursor(0, 0);
-  lcd.print("Cyberzilla™ Presents");
+  lcd.print("Cybertronic Sys");
   lcd.setCursor(0, 1);
   lcd.print("VitaCoder Pro");
   

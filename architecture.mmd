@@ -1,0 +1,25 @@
+%% EM-Zilla Architecture & Data Flow Diagram (FJ™ Cybertronic Systems)
+graph TD
+    subgraph Client [Browser / PWA / Termux Client]
+        UI[PSP Vita LiveArea UI <br> css/vita-theme.css] --> App[App Controller <br> js/app.js]
+        App --> USB[USB Detector & Serial API <br> js/usb-detector.js]
+        App --> FM[File Manager <br> js/file-manager.js]
+        App --> UIM[UI Manager <br> js/ui-manager.js]
+    end
+
+    subgraph SecurityLayer [Enterprise Security Boundary]
+        IV[Integrity Verifier <br> security/integrity-verifier.js] -->|SHA-256 Check| App
+        CP[Clone Protector <br> security/clone-protector.js] --> App
+        RG[Runtime Guard <br> security/runtime-guard.js] --> App
+    end
+
+    subgraph AIOrchestration [Neural AI Orchestration Layer]
+        TD[Task Dispatcher <br> modules/ai_orchestration/task-dispatcher.js] --> DE[Decision Engine <br> modules/ai_orchestration/decision-engine.js]
+        DE --> CM[Context Manager <br> modules/ai_orchestration/context-manager.js]
+        DE --> KG[Knowledge Graph <br> modules/ai_orchestration/knowledge-graph.js]
+        App --> TD
+    end
+
+    subgraph Hardware [Microcontroller Target]
+        USB -->|Web Serial API| MCU[Arduino / ESP32 Board]
+    end

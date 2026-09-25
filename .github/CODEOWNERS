@@ -1,0 +1,14 @@
+# CODEOWNERS for EM-Zilla (FJ™ Cybertronic Systems)
+
+# Global owner
+* @FJ-cyberzilla
+
+# Security and Cryptographic Subsystem
+/security/ @FJ-cyberzilla
+
+# AI Orchestration Modules
+/modules/ai_orchestration/ @FJ-cyberzilla
+
+# Build and CI/CD Workflows
+/.github/workflows/ @FJ-cyberzilla
+/build/ @FJ-cyberzilla
