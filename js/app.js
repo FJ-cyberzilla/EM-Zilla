@@ -182,7 +182,7 @@ class VitaCoderApp {
             ">
                 <div style="font-size: 48px; margin-bottom: 20px;">🚨</div>
                 <h1 style="color: #ff4444; margin-bottom: 20px;">Security Alert</h1>
-                <p style="margin-bottom: 30px; max-width: 500px;">${message}</p>
+                <p id="security-warning-message" style="margin-bottom: 30px; max-width: 500px;"></p>
                 <div style="background: #2a2a3a; padding: 20px; border-radius: 10px; max-width: 500px;">
                     <p>Please download the official version from:</p>
                     <a href="https://github.com/FJ-cyberzilla/EM-Zilla" 
@@ -192,6 +192,10 @@ class VitaCoderApp {
                 </div>
             </div>
         `;
+        const warningMessageElement = document.getElementById('security-warning-message');
+        if (warningMessageElement) {
+            warningMessageElement.textContent = message;
+        }
     }
 
     showErrorScreen(error) {
