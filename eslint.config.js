@@ -17,6 +17,8 @@ export default [
                 navigator: "readonly",
                 Blob: "readonly",
                 URL: "readonly",
+                btoa: "readonly",
+                atob: "readonly",
                 TextEncoder: "readonly",
                 TextDecoder: "readonly",
                 localStorage: "readonly",

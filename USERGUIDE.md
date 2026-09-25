@@ -28,12 +28,13 @@ npm run dev
 
 ---
 
-## 🤖 2. AI Code Generation & Orchestration
+## 🤖 2. AI Code Generation, Caching & Structural Inspection
 
 1. Open EM-Zilla in your browser (`http://localhost:3000`).
-2. Navigate to the **AI Code Generator** tab.
+2. Navigate to the **AI Code Generator** / **Code Analysis** tab.
 3. Describe your desired project or sensor setup in plain English (e.g., *"Read temperature from DHT11 and blink LED when above 25C"*).
-4. The multi-AI orchestration engine (`modules/ai_orchestration/`) processes your request, leveraging the knowledge graph, decision engine, and task dispatcher to produce optimized Arduino C++ code instantly.
+4. **Offline AI Caching**: Frequently requested prompts and analysis results are automatically cached locally via high-performance TTL and LRU caching (`modules/ai_orchestration/ai-cache.js`) for instant offline response.
+5. **Deep Structural Inspection**: The ML Code Analyzer performs automated AST-like inspections to detect blocking `delay()` calls, compute nesting depth, assess pin usage, and generate a comprehensive structural health score.
 
 ---
 

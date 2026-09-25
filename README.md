@@ -29,7 +29,9 @@
 ### 🤖 **AI-Powered Intelligence**
 - **Natural Language to Arduino Code**: Describe what you want in plain English
 - **Multi-AI Orchestration**: TensorFlow Lite, NLP, and custom AI models working together
-- **Smart Code Analysis**: ML-powered error detection and optimization suggestions
+- **Smart Code Analysis**: ML-powered error detection, structural health scoring, and optimization suggestions
+- **Offline AI Caching**: High-performance TTL and LRU caching for instant offline response
+- **Deep Structural Inspection**: Automated detection of blocking `delay()` calls, nesting depth, and pin usage diagnostics
 - **Context-Aware Assistance**: Learns from your coding patterns and preferences
 
 ### 🔌 **Hardware Integration**

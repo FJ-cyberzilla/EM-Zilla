@@ -1,8 +1,10 @@
 import TFLiteIntegration from './tflite-integration.js';
+import AICache from './ai_orchestration/ai-cache.js';
 
 export default class MLCodeAnalyzer {
     constructor() {
         this.tflite = new TFLiteIntegration();
+        this.cache = new AICache(150, 60 * 60 * 1000); // 150 items, 1 hour TTL
         this.initialized = false;
     }
 
@@ -16,76 +18,65 @@ export default class MLCodeAnalyzer {
     async analyzeCode(code) {
         await this.initialize();
 
+        const cached = this.cache.get('ml_analysis', code);
+        if (cached) {
+            return { ...cached, cached: true };
+        }
+
         const analysis = await this.tflite.analyzeCodeWithML(code, 'full');
         
-        // Enhance with traditional analysis
+        // Enhance with traditional analysis & deep structural checks
         const traditionalAnalysis = this.traditionalCodeAnalysis(code);
-        
-        return {
+        const structuralAnalysis = this.deepStructuralInspection(code);
+
+        const result = {
             ...analysis,
             traditional: traditionalAnalysis,
-            combinedScore: this.combineScores(analysis, traditionalAnalysis),
-            timestamp: new Date().toISOString()
+            structural: structuralAnalysis,
+            combinedScore: this.combineScores(analysis, traditionalAnalysis, structuralAnalysis),
+            timestamp: new Date().toISOString(),
+            cached: false
         };
+
+        this.cache.set('ml_analysis', code, result);
+        return result;
     }
 
-    traditionalCodeAnalysis(code) {
-        return {
-            lineCount: code.split('\n').length,
-            functionCount: (code.match(/\b\w+\s+\w+\s*\([^)]*\)\s*{/g) || []).length,
-            complexity: this.calculateCyclomaticComplexity(code),
-            readability: this.calculateReadabilityScore(code),
-            maintainability: this.calculateMaintainabilityIndex(code)
-        };
-    }
-
-    calculateCyclomaticComplexity(code) {
-        let complexity = 1;
-        
-        // Count decision points
-        complexity += (code.match(/\bif\s*\(/g) || []).length;
-        complexity += (code.match(/\bfor\s*\(/g) || []).length;
-        complexity += (code.match(/\bwhile\s*\(/g) || []).length;
-        complexity += (code.match(/\bcase\s+/g) || []).length;
-        complexity += (code.match(/\bcatch\s*\(/g) || []).length;
-        
-        return complexity;
-    }
-
-    calculateReadabilityScore(code) {
+    deepStructuralInspection(code) {
         const lines = code.split('\n');
-        let score = 100;
-        
-        // Penalize long lines
+        let maxNestDepth = 0;
+        let currentNestDepth = 0;
+        let blockingDelayCount = 0;
+        let digitalReadWriteCount = 0;
+        let analogReadWriteCount = 0;
+
         lines.forEach(line => {
-            if (line.length > 80) score -= 2;
-            if (line.length > 120) score -= 5;
+            const trimmed = line.trim();
+            if (trimmed.includes('{')) currentNestDepth++;
+            if (trimmed.includes('}')) currentNestDepth = Math.max(0, currentNestDepth - 1);
+            maxNestDepth = Math.max(maxNestDepth, currentNestDepth);
+
+            if (trimmed.startsWith('delay(')) blockingDelayCount++;
+            if (trimmed.includes('digitalRead') || trimmed.includes('digitalWrite')) digitalReadWriteCount++;
+            if (trimmed.includes('analogRead') || trimmed.includes('analogWrite')) analogReadWriteCount++;
         });
-        
-        // Reward comments
-        const commentLines = lines.filter(line => 
-            line.trim().startsWith('//') || line.includes('/*')
-        ).length;
-        
-        score += Math.min(commentLines * 2, 20);
-        
-        return Math.max(0, score);
+
+        return {
+            maxNestDepth,
+            blockingDelayCount,
+            digitalReadWriteCount,
+            analogReadWriteCount,
+            hasBlockingDelays: blockingDelayCount > 0,
+            structuralHealthScore: Math.max(0, 100 - (maxNestDepth * 5) - (blockingDelayCount * 10))
+        };
     }
 
-    calculateMaintainabilityIndex(code) {
-        const complexity = this.calculateCyclomaticComplexity(code);
-        const lines = code.split('\n').length;
-        const commentDensity = (code.match(/\/\/|\/\*/g) || []).length / lines;
-        
-        // Simplified maintainability index calculation
-        return Math.max(0, 171 - 5.2 * Math.log(complexity) - 0.23 * lines + 16.2 * Math.log(commentDensity + 1));
-    }
-
-    combineScores(mlAnalysis, traditionalAnalysis) {
+    combineScores(mlAnalysis, traditionalAnalysis, structuralAnalysis) {
         const mlScore = mlAnalysis.overallScore || 0;
         const tradScore = traditionalAnalysis.maintainability / 100;
+        const structScore = (structuralAnalysis.structuralHealthScore || 100) / 100;
         
-        return (mlScore * 0.7 + tradScore * 0.3);
+        return (mlScore * 0.5 + tradScore * 0.3 + structScore * 0.2);
     }
 
     async getSmartSuggestions(code, context = {}) {
