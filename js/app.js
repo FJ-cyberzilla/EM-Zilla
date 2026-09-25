@@ -153,7 +153,7 @@ class VitaCoderApp {
         `;
         restriction.innerHTML = `
             <h3 style="margin-bottom: 15px;">🔒 Premium Feature</h3>
-            <p style="margin-bottom: 20px;">${message}</p>
+            <p id="feature-restriction-message" style="margin-bottom: 20px;"></p>
             <a href="https://github.com/FJ-cyberzilla/EM-Zilla" 
                style="display: inline-block; background: white; color: #FF9800; 
                       padding: 10px 20px; border-radius: 5px; text-decoration: none;
@@ -161,6 +161,10 @@ class VitaCoderApp {
                Get Official Version
             </a>
         `;
+        const restrictionMessage = restriction.querySelector('#feature-restriction-message');
+        if (restrictionMessage) {
+            restrictionMessage.textContent = message;
+        }
         document.body.appendChild(restriction);
     }
 
