@@ -1,4 +1,6 @@
 // security/clone-protector.js
+import IntegrityVerifier from './integrity-verifier.js';
+
 export default class CloneProtector {
     constructor() {
         this.isOfficialBuild = false;

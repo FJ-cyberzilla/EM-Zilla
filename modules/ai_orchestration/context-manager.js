@@ -405,7 +405,7 @@ export default class ContextManager {
         }
     }
 
-    queryCapabilities(query, context) {
+    queryCapabilities(query, _context) {
         const { required_capabilities } = query;
         const available = this.systemContext.get('capabilities') || {};
         
@@ -418,7 +418,7 @@ export default class ContextManager {
         };
     }
 
-    queryPreferences(query, context) {
+    queryPreferences(query, _context) {
         const { preference_keys } = query;
         const preferences = this.userContext.get('preferences') || {};
         
@@ -511,4 +511,7 @@ export default class ContextManager {
             
             localStorage.setItem('vita_coder_context', JSON.stringify(context));
         } catch (error) {
-            console.warn
+            console.warn('Failed to persist context:', error);
+        }
+    }
+}

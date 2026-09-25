@@ -56,7 +56,6 @@
 - Chrome/Edge browser (Web Serial API support)
 - Arduino board (Uno, Nano, Mega, ESP32, etc.)
 - USB cable for direct programming
-
 ### Installation
 
 ```bash
@@ -68,3 +67,13 @@ npm install
 
 # Start development server
 npm run dev
+```
+
+## 🛠️ Architecture & Quality Assurance
+
+EM-Zilla's application tree and layout follow modern Web/PWA and domain-driven design industry standards across 4 core pillars:
+
+1. **Modular Separation of Concerns (SoC)**: Clean isolation between UI controllers (`js/`), intelligence/AI orchestration (`modules/ai_orchestration/`), security safeguards (`security/`), and build/signing pipelines (`build/`).
+2. **Modern JavaScript & Module Standards**: Native ES Modules (`"type": "module"`) coupled with ESLint v9 Flat Configuration (`eslint.config.js`) enforcing zero error tolerance.
+3. **PWA & Hardware Integration**: Progressive Web App manifest/service worker readiness combined with Web Serial API support for auto-detecting Arduino and microcontroller hardware.
+4. **Security & Cryptographic Integrity**: Enterprise-grade protection featuring automated SHA-256 hash computation, runtime integrity verification (`security/integrity-verifier.js`), and clone protection (`security/test-integrity.js`).

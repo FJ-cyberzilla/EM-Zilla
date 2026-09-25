@@ -6,7 +6,7 @@
 }
 
 body {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    background: linear-gradient(135deg, #1b221a 0%, #232d21 50%, #121811 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -18,7 +18,7 @@ body {
 .psp-vita {
     width: 100%;
     max-width: 900px;
-    background: linear-gradient(145deg, #2d2d3a, #1f1f2b);
+    background: linear-gradient(145deg, #2b3329, #1c221a);
     border-radius: 40px;
     padding: 30px;
     box-shadow: 

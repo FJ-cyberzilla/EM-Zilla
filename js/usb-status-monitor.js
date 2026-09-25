@@ -71,7 +71,7 @@ export default class USBStatusMonitor {
                 // Auto-reconnect to first detected device
                 await this.usbDetector.detectArduino();
             }
-        } catch (error) {
+        } catch {
             // Silent fail - device might be intentionally disconnected
         }
     }

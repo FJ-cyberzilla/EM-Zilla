@@ -177,16 +177,8 @@ export default class KnowledgeGraph {
         return patterns;
     }
 
-    async extractFailurePatterns(task, error) {
-        const errorPattern = {
-            type: 'error_pattern',
-            taskType: task.type,
-            errorMessage: error.message,
-            context: task.payload,
-            timestamp: new Date().toISOString()
-        };
-        
-        // Update pattern success rates
+    async extractFailurePatterns(task, _error) {
+        // Update pattern success rates based on failure
         const relatedPatterns = this.findRelatedPatterns(task);
         relatedPatterns.forEach(pattern => {
             pattern.successRate = (pattern.successRate * pattern.frequency) / (pattern.frequency + 1);
@@ -196,7 +188,7 @@ export default class KnowledgeGraph {
     async findSimilarTasks(currentTask) {
         const similarities = [];
         
-        for (const [taskId, historicalTask] of this.taskHistory) {
+        for (const [, historicalTask] of this.taskHistory) {
             if (historicalTask.success) {
                 const similarity = this.calculateTaskSimilarity(currentTask, historicalTask);
                 
@@ -344,7 +336,7 @@ export default class KnowledgeGraph {
     findRelatedPatterns(task) {
         const related = [];
         
-        for (const [patternId, pattern] of this.patterns) {
+        for (const [, pattern] of this.patterns) {
             if (pattern.triggers.some(trigger => 
                 task.payload.description?.toLowerCase().includes(trigger))) {
                 related.push(pattern);

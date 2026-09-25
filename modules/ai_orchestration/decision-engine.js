@@ -169,7 +169,7 @@ export default class DecisionEngine {
         };
     }
 
-    ruleMatchesContext(conditions, context, knowledge) {
+    ruleMatchesContext(conditions, context, _knowledge) {
         return Object.entries(conditions).every(([key, value]) => {
             if (key === 'type' || key === 'method' || key === 'target') {
                 return context[key] === value;
@@ -316,7 +316,7 @@ export default class DecisionEngine {
         };
     }
 
-    getDefaultDecision(decisionType, context) {
+    getDefaultDecision(decisionType, _context) {
         const defaults = {
             'system_selection': { system: 'ai_code_gen', priority: 'medium' },
             'error_handling': { action: 'retry', attempts: 2, delay: 1000 },
@@ -331,7 +331,7 @@ export default class DecisionEngine {
         };
     }
 
-    explainDecision(decision, context) {
+    explainDecision(decision, _context) {
         const explanations = [];
         
         if (decision.rulesUsed && decision.rulesUsed.length > 0) {
@@ -522,7 +522,7 @@ export default class DecisionEngine {
         // In a real implementation, this would use more sophisticated ML
         const adjustment = success ? 0.02 : -0.05;
         
-        for (const [ruleType, rules] of this.decisionRules) {
+        for (const [, rules] of this.decisionRules) {
             rules.conditions.forEach(rule => {
                 if (this.ruleMatchesInteraction(rule, input)) {
                     rule.confidence = Math.max(0.1, Math.min(0.95, rule.confidence + adjustment));
@@ -534,9 +534,8 @@ export default class DecisionEngine {
     ruleMatchesInteraction(rule, input) {
         // Check if rule conditions match the interaction input
         const inputStr = JSON.stringify(input).toLowerCase();
-        const conditionStr = JSON.stringify(rule.when).toLowerCase();
         
-        return Object.entries(rule.when).some(([key, value]) =>
+        return Object.entries(rule.when).some(([, value]) =>
             inputStr.includes(value?.toString().toLowerCase())
         );
     }

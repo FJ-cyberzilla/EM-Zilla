@@ -176,7 +176,7 @@ export default class TaskDispatcher {
         return true;
     }
 
-    hasSufficientResources(task) {
+    hasSufficientResources(_task) {
         // Check system resources before executing task
         const memory = performance.memory;
         if (memory && memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8) {
@@ -281,7 +281,7 @@ export default class TaskDispatcher {
         };
     }
 
-    async executeHardwareDetection(task) {
+    async executeHardwareDetection(_task) {
         // Simulate hardware detection
         await this.simulateProcessing(500 + Math.random() * 1500);
         
@@ -293,7 +293,7 @@ export default class TaskDispatcher {
         };
     }
 
-    async executeAnalysis(task) {
+    async executeAnalysis(_task) {
         // Simulate code analysis
         await this.simulateProcessing(800 + Math.random() * 1200);
         
@@ -305,7 +305,7 @@ export default class TaskDispatcher {
         };
     }
 
-    async executeOptimization(task) {
+    async executeOptimization(_task) {
         // Simulate optimization
         await this.simulateProcessing(1200 + Math.random() * 1800);
         
@@ -317,7 +317,7 @@ export default class TaskDispatcher {
         };
     }
 
-    async executeTroubleshooting(task) {
+    async executeTroubleshooting(_task) {
         // Simulate troubleshooting
         await this.simulateProcessing(1500 + Math.random() * 2500);
         
@@ -393,10 +393,10 @@ export default class TaskDispatcher {
 
     selectOptimalWorker(task) {
         const suitableWorkers = Array.from(this.workerPool.entries())
-            .filter(([name, worker]) => worker.capabilities.some(cap => 
+            .filter(([_name, worker]) => worker.capabilities.some(cap => 
                 task.type.includes(cap) || cap.includes(task.type)
             ))
-            .map(([name, worker]) => ({ name, performance: worker.performance }));
+            .map(([_name, worker]) => ({ name: _name, performance: worker.performance }));
 
         if (suitableWorkers.length === 0) {
             return 'code_generation'; // Default fallback
@@ -410,7 +410,7 @@ export default class TaskDispatcher {
         }).name;
     }
 
-    calculateWorkerScore(worker, task) {
+    calculateWorkerScore(worker, _task) {
         const perf = worker.performance;
         const successRate = perf.success / (perf.success + perf.failure) || 0.5;
         const avgTime = perf.avgTime || 5000;

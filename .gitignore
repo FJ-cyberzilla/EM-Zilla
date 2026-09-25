@@ -13,6 +13,15 @@ yarn-error.log*
 .env.local
 .env.production
 
+# Linter and Static Analysis cache / reports
+.eslintcache
+results.sarif
+snyk.sarif
+
+# Security and SSL files
+security/*.bak
+*.pem
+
 # IDE and OS files
 .vscode/
 .idea/

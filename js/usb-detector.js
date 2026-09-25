@@ -165,7 +165,7 @@ export default class USBDetector {
                 if (response && response.includes(expected)) {
                     return this.mapResponseToModel(response);
                 }
-            } catch (error) {
+            } catch {
                 // Continue to next command
             }
         }
@@ -210,7 +210,6 @@ export default class USBDetector {
         }
 
         const encoder = new TextEncoder();
-        const decoder = new TextDecoder();
         
         // Write command
         this.writer = this.port.writable.getWriter();
@@ -231,7 +230,7 @@ export default class USBDetector {
     }
 
     // Read response from Arduino
-    async readResponse(timeout = 1000) {
+    async readResponse(_timeout = 1000) {
         if (!this.port) {
             throw new Error('Port not open');
         }
@@ -277,7 +276,7 @@ export default class USBDetector {
                 await this.sendCommand('\r\n', 500);
                 return baudRate;
                 
-            } catch (error) {
+            } catch {
                 // Continue to next baud rate
             }
         }

@@ -5,7 +5,7 @@ export default class FileManager {
             .then(() => {
                 this.showNotification('Code copied to clipboard!', 'success');
             })
-            .catch(err => {
+            .catch(_err => {
                 this.showNotification('Failed to copy code', 'error');
             });
     }
